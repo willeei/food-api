@@ -2,20 +2,19 @@ package com.wwwgomes.food.jpa;
 
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.ApplicationContext;
 
 import com.wwwgomes.food.FoodApiApplication;
-import com.wwwgomes.food.domain.model.Cozinha;
+import com.wwwgomes.food.domain.infrastructure.repository.CozinhaRepositoryImpl;
 
 public class BuscaCozinhaMain {
 
 	public static void main(String[] args) {
-		ApplicationContext applicationContext = new SpringApplicationBuilder(FoodApiApplication.class)
+		var applicationContext = new SpringApplicationBuilder(FoodApiApplication.class)
 				.web(WebApplicationType.NONE).run(args);
 
-		CadastroCozinha cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
+		var cozinhaRepository = applicationContext.getBean(CozinhaRepositoryImpl.class);
 
-		Cozinha cozinha = cadastroCozinha.buscar(1L);
+		var cozinha = cozinhaRepository.buscar(1L);
 
 		System.out.println(cozinha.getNome());
 

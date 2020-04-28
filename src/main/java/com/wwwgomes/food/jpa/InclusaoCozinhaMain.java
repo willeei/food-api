@@ -2,19 +2,20 @@ package com.wwwgomes.food.jpa;
 
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.ApplicationContext;
 
 import com.wwwgomes.food.FoodApiApplication;
+import com.wwwgomes.food.domain.infrastructure.repository.CozinhaRepositoryImpl;
 import com.wwwgomes.food.domain.model.Cozinha;
 
 public class InclusaoCozinhaMain {
 	
 	public static void main(String[] args) {
-		ApplicationContext applicationContext = 
+		var applicationContext = 
 				new SpringApplicationBuilder(FoodApiApplication.class)
 					.web(WebApplicationType.NONE)
 					.run(args);
-		var cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
+		
+		var cozinhaRepository = applicationContext.getBean(CozinhaRepositoryImpl.class);
 		
 		var cozinha = new Cozinha();
 		cozinha.setNome("Brasileira");
@@ -22,8 +23,8 @@ public class InclusaoCozinhaMain {
 		var cozinha2 = new Cozinha();
 		cozinha2.setNome("Japonesa");
 		
-		cozinha = cadastroCozinha.salvar(cozinha);
-		cozinha2 = cadastroCozinha.salvar(cozinha2);
+		cozinha = cozinhaRepository.salvar(cozinha);
+		cozinha2 = cozinhaRepository.salvar(cozinha2);
 		
 		System.out.printf("%d - %s\n", cozinha.getId(), cozinha.getNome());
 		System.out.printf("%d - %s\n", cozinha2.getId(), cozinha2.getNome());
