@@ -4,8 +4,8 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 import com.wwwgomes.food.FoodApiApplication;
-import com.wwwgomes.food.domain.infrastructure.repository.CozinhaRepositoryImpl;
 import com.wwwgomes.food.domain.model.Cozinha;
+import com.wwwgomes.food.infrastructure.repository.CozinhaRepositoryImpl;
 
 public class InclusaoCozinhaMain {
 	
