@@ -6,9 +6,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.springframework.stereotype.Repository;
+
 import com.wwwgomes.food.domain.model.Restaurante;
 import com.wwwgomes.food.domain.repository.RestauranteRepository;
 
+@Repository
 public class RestauranteRepositoryImpl implements RestauranteRepository {
 
 	@PersistenceContext
