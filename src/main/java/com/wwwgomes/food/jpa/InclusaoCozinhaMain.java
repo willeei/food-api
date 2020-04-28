@@ -22,8 +22,8 @@ public class InclusaoCozinhaMain {
 		var cozinha2 = new Cozinha();
 		cozinha2.setNome("Japonesa");
 		
-		cozinha = cadastroCozinha.adicionar(cozinha);
-		cozinha2 = cadastroCozinha.adicionar(cozinha2);
+		cozinha = cadastroCozinha.salvar(cozinha);
+		cozinha2 = cadastroCozinha.salvar(cozinha2);
 		
 		System.out.printf("%d - %s\n", cozinha.getId(), cozinha.getNome());
 		System.out.printf("%d - %s\n", cozinha2.getId(), cozinha2.getNome());
