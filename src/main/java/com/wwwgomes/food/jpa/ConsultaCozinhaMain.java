@@ -14,7 +14,7 @@ public class ConsultaCozinhaMain {
 
 		CadastroCozinha cadastroCozinha = context.getBean(CadastroCozinha.class);
 
-		cadastroCozinha.lista().forEach(c -> System.out.println(c.getNome()));
+		cadastroCozinha.listar().forEach(c -> System.out.println(c.getNome()));
 	}
 
 }
