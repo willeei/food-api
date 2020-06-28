@@ -22,7 +22,7 @@ public class UpdateRestauranteService {
 		var restauranteAtual = restauranteRepository.buscar(id);
 
 		if (restauranteAtual == null) {
-			throw new EntidadeNaoEncontradaException(
+			throw new RuntimeException(
 					String.format("Não existe cadastro de restaurante com o id %d", id));
 		}
 
