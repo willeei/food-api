@@ -1,4 +1,4 @@
-package com.wwwgomes.food.api;
+package com.wwwgomes.food.api.controller;
 
 import java.util.List;
 
