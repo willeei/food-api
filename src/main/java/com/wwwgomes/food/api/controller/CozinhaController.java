@@ -31,9 +31,10 @@ public class CozinhaController {
 	private CozinhaRepository cozinhaRepository;
 
 	@Autowired
-	CadastroCozinhaService cadastroCozinhaService;
+	private CadastroCozinhaService cadastroCozinhaService;
+	
 	@Autowired
-	RemoveCozinhaService removeCozinhaService;
+	private RemoveCozinhaService removeCozinhaService;
 
 	@GetMapping
 	public List<Cozinha> listar() {
@@ -71,7 +72,7 @@ public class CozinhaController {
 	}
 
 	@DeleteMapping("/{cozinhaId}")
-	public ResponseEntity<Cozinha> remover(@PathVariable Long cozinhaId) {
+	public ResponseEntity<?> remover(@PathVariable Long cozinhaId) {
 		try {
 			removeCozinhaService.execute(cozinhaId);
 
@@ -79,7 +80,7 @@ public class CozinhaController {
 		} catch (EntidadeNaoEncontradaException e) {
 			return ResponseEntity.notFound().build();
 		} catch (EntidadeEmUsoException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
 		}
 	}
 
