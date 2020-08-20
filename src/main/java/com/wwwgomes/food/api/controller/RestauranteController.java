@@ -1,11 +1,13 @@
 package com.wwwgomes.food.api.controller;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wwwgomes.food.domain.exception.EntidadeNaoEncontradaException;
 import com.wwwgomes.food.domain.model.Restaurante;
 import com.wwwgomes.food.domain.repository.RestauranteRepository;
@@ -88,6 +91,16 @@ public class RestauranteController {
 	}
 	
 	private void merge(Map<String, Object> camposOrigem, Restaurante restauranteDestino) {
-		camposOrigem.forEach((key, value) -> System.out.println(key + " = " + value));
+		var objectMapper = new ObjectMapper();
+		var restauranteOrigem = objectMapper.convertValue(camposOrigem, Restaurante.class);
+		
+		camposOrigem.forEach((key, value) -> {
+			var field = ReflectionUtils.findField(Restaurante.class, key);
+			field.setAccessible(true);
+			
+			var novoValor = ReflectionUtils.getField(field, restauranteOrigem);
+			
+			ReflectionUtils.setField(field, restauranteDestino, novoValor);
+		});
 	}
 }
