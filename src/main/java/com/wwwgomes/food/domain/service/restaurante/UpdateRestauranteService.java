@@ -19,25 +19,25 @@ public class UpdateRestauranteService {
 	private CozinhaRepository cozinhaRepository;
 
 	public void execute(Long id, Restaurante restaurante) {
-		var restauranteAtual = restauranteRepository.buscar(id);
+		var restauranteAtual = restauranteRepository.findById(id);
 
-		if (restauranteAtual == null) {
+		if (!restauranteAtual.isPresent()) {
 			throw new RuntimeException(
 					String.format("Não existe cadastro de restaurante com o id %d", id));
 		}
 
 		var cozinhaId = restaurante.getCozinha().getId();
-		var cozinha = cozinhaRepository.buscar(cozinhaId);
+		var cozinha = cozinhaRepository.findById(cozinhaId);
 
-		if (cozinha == null)
+		if (!cozinha.isPresent())
 			throw new EntidadeNaoEncontradaException(
 					String.format("Não existe cadastro de cozinha com o id %d", cozinhaId));
 
-		restaurante.setCozinha(cozinha);
+		restaurante.setCozinha(cozinha.get());
 
-		BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
+		BeanUtils.copyProperties(restaurante, restauranteAtual.get(), "id");
 
-		restauranteRepository.salvar(restauranteAtual);
+		restauranteRepository.save(restauranteAtual.get());
 	}
 
 }
