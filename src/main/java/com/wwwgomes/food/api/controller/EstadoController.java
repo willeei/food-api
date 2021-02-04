@@ -26,60 +26,60 @@ import com.wwwgomes.food.domain.service.CadastroEstadoService;
 @RequestMapping("/estados")
 public class EstadoController {
 
-	@Autowired
-	private EstadoRepository estadoRepository;
+    @Autowired
+    private EstadoRepository estadoRepository;
 
-	@Autowired
-	private CadastroEstadoService cadastroEstado;
+    @Autowired
+    private CadastroEstadoService cadastroEstado;
 
-	@GetMapping
-	public List<Estado> listar() {
-		return estadoRepository.findAll();
-	}
+    @GetMapping
+    public List<Estado> listar() {
+        return estadoRepository.findAll();
+    }
 
-	@GetMapping("/{estadoId}")
-	public ResponseEntity<Estado> buscar(@PathVariable Long estadoId) {
-		var estado = estadoRepository.findById(estadoId);
+    @GetMapping("/{estadoId}")
+    public ResponseEntity<Estado> buscar(@PathVariable Long estadoId) {
+        var estado = estadoRepository.findById(estadoId);
 
-		if (estado.isPresent()) {
-			return ResponseEntity.ok(estado.get());
-		}
+        if (estado.isPresent()) {
+            return ResponseEntity.ok(estado.get());
+        }
 
-		return ResponseEntity.notFound().build();
-	}
+        return ResponseEntity.notFound().build();
+    }
 
-	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public Estado adicionar(@RequestBody Estado estado) {
-		return cadastroEstado.salvar(estado);
-	}
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Estado adicionar(@RequestBody Estado estado) {
+        return cadastroEstado.salvar(estado);
+    }
 
-	@PutMapping("/{estadoId}")
-	public ResponseEntity<Estado> atualizar(@PathVariable Long estadoId, @RequestBody Estado estado) {
-		var estadoAtual = estadoRepository.findById(estadoId);
+    @PutMapping("/{estadoId}")
+    public ResponseEntity<Estado> atualizar(@PathVariable Long estadoId, @RequestBody Estado estado) {
+        var estadoAtual = estadoRepository.findById(estadoId);
 
-		if (estadoAtual.isPresent()) {
-			BeanUtils.copyProperties(estado, estadoAtual.get(), "id");
+        if (estadoAtual.isPresent()) {
+            BeanUtils.copyProperties(estado, estadoAtual.get(), "id");
 
-			var estadoSalvo = cadastroEstado.salvar(estadoAtual.get());
-			return ResponseEntity.ok(estadoSalvo);
-		}
+            var estadoSalvo = cadastroEstado.salvar(estadoAtual.get());
+            return ResponseEntity.ok(estadoSalvo);
+        }
 
-		return ResponseEntity.notFound().build();
-	}
+        return ResponseEntity.notFound().build();
+    }
 
-	@DeleteMapping("/{estadoId}")
-	public ResponseEntity<?> remover(@PathVariable Long estadoId) {
-		try {
-			cadastroEstado.excluir(estadoId);
-			return ResponseEntity.noContent().build();
+    @DeleteMapping("/{estadoId}")
+    public ResponseEntity<?> remover(@PathVariable Long estadoId) {
+        try {
+            cadastroEstado.excluir(estadoId);
+            return ResponseEntity.noContent().build();
 
-		} catch (EntidadeNaoEncontradaException e) {
-			return ResponseEntity.notFound().build();
+        } catch (EntidadeNaoEncontradaException e) {
+            return ResponseEntity.notFound().build();
 
-		} catch (EntidadeEmUsoException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-		}
-	}
+        } catch (EntidadeEmUsoException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
+    }
 
 }
